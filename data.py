@@ -1,5 +1,5 @@
 class User:
-    def __init__(self, email, first_name, last_name, salt, password_hash):
+    def __init__(self, email, first_name, last_name, password_hash):
         self.email = email
         self.first_name = first_name
         self.last_name = last_name
@@ -15,7 +15,6 @@ class User:
             "email": self.email,
             "first_name": self.first_name,
             "last_name": self.last,
-            "salt": self.salt,
             "password_hash": self.password_hash,
             "image_ids": self.image_ids
         }

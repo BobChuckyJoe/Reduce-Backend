@@ -1,8 +1,15 @@
-import boto3
+import json
 
-from data import User
-# I will assume the credentials are set up correctly
-ddb = boto3.resource("dynamodb")
+import boto3
+import nacl.pwhash
+
+from data import Image, User
+# I will assume the credentials are set up correctly inside creds.json
+with open("creds.json") as f:
+    creds = json.load(f)
+ddb = boto3.resource("dynamodb", region_name="us-east-1",
+                    aws_access_key_id=creds["aws_access_key_id"],
+                    aws_secret_access_key=creds["aws_secret_access_key"])
 
 users = ddb.Table("Reduce_users")
 images = ddb.Table("Reduce_images")
@@ -12,9 +19,13 @@ def add_user(user: User):
         Item=user.to_dict()
     )
 
-def get_user(user_email):
+def get_user(user_email: str) -> User:
     res = users.get_item(Key= {"email": user_email})
-    return res["Item"]
+    # User does not exist
+    if "Item" not in res:
+        return None
+
+    return User()
 
 def add_img_to_user(user: User, image: Image):
     # Local changes
