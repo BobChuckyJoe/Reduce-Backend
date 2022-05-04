@@ -3,7 +3,7 @@ import json
 import boto3
 import nacl.pwhash
 
-from data import Image, User
+from data import LabeledImage, User
 # I will assume the credentials are set up correctly inside creds.json
 with open("creds.json") as f:
     creds = json.load(f)

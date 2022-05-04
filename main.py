@@ -1,13 +1,14 @@
+import base64
 from pprint import pprint
+import uuid
 
 from flask import Flask, request
 from flask_cors import CORS
-import base64, M2Crypto
-def generate_session_id(num_bytes = 16):
-    return base64.b64encode(M2Crypto.m2.rand_bytes(num_bytes))
+
+import nacl.pwhash
 from nacl.exceptions import InvalidkeyError
 
-from date import User
+from data import User
 from db import get_user, add_user
 app = Flask(__name__)
 CORS(app)
@@ -48,12 +49,12 @@ def sign_up():
             password_hash = nacl.pwhash.str(password)
             user = User(email, first_name, last_name, password_hash)
             add_user(user)
-            session_id = generate_session_id()
+            session_id = str(uuid.uuid4())
 
-    return {
-        "ok": "true"
-        "session_id": sess_id
-    }
+            return {
+                "ok": "true",
+                "session_id": session_id
+            }
 
 @app.route("/login", methods=["POST"])
 def login():
