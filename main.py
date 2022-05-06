@@ -98,6 +98,72 @@ def login():
         }
 
 
+user_stats = {
+    "prev_weeks": [
+        ["04/03", 840],
+        ["04/10", 849],
+        ["04/17", 840],
+        ["04/24", 860]],
+    "curr_week": {
+        "bottles": 190,
+        "cans": 136,
+        "cups": 107,
+        "paper": 216,
+        "other": 200
+    }
+}
+
+house_stats = {
+    "prev_weeks": [
+        ["04/03", 3320],
+        ["04/10", 3386],
+        ["04/17", 3360],
+        ["04/24", 3440]],
+    "curr_week": {
+        "bottles": 760,
+        "cans": 544,
+        "cups": 428,
+        "paper": 864,
+        "other": 800
+    },
+    "members": [
+        { "name": "You", "amount": 849 },
+        { "name": "Jane", "amount": 870 },
+        { "name": "Jack", "amount": 834 },
+        { "name": "Jill", "amount": 843 }]
+}
+
+@app.route("/stats", methods=["GET"])
+def stats():
+    return user_stats
+
+
+@app.route("/stats/increase", methods=["POST"])
+def increase_stats():
+    json = request.json
+    trash_type = json["trash_type"]
+    amount = 1
+    if trash_type == "other":
+        amount = json["amount"]
+    user_stats["curr_week"][trash_type] += amount
+    house_stats["curr_week"][trash_type] += amount
+    house_stats["curr_week"][0]["amount"] += amount
+
+
+@app.route("/stats/decrease", methods=["POST"])
+def decrease_stats():
+    json = request.json
+    trash_type = json["trash_type"]
+    user_stats["curr_week"][trash_type] -= 1
+    house_stats["curr_week"][trash_type] -= 1
+    house_stats["curr_week"][0]["amount"] -= 1
+
+
+@app.route("/members")
+def members():
+    return house_stats
+
+
 @app.route("/upload", methods=["POST"])
 def post():
     # Users will post to
