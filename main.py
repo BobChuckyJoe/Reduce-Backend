@@ -103,6 +103,9 @@ def post():
     # Users will post to
     json = request.json
     session_id = json["session_id"]
+    print(f"User gave: {json['session_id']}")
+    print(f"We have: {sess_id_to_user}")
+
     if session_id not in sess_id_to_user:
         return {
             "ok": "false",
