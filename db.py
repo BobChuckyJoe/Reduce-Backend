@@ -27,8 +27,9 @@ def get_user(user_email: str) -> User:
     # User does not exist
     if "Item" not in res:
         return None
+    item = res["Item"]
 
-    return User()
+    return User(item["email"], item["first_name"], item["last_name"], item["password_hash"])
 
 
 def add_img_to_user(user: User, image: LabeledImage):
