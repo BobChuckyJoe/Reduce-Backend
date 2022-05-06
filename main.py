@@ -79,6 +79,9 @@ def login():
     else:
         # Verify password
         user_hash = user.password_hash
+        print("Login stuff")
+        print(user_hash)
+        print(json["password"])
         try:
             nacl.pwhash.verify(user_hash, bytes(json["password"], "utf-8"))
         except InvalidkeyError:
