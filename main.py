@@ -114,7 +114,7 @@ def post():
     else:
         img = json["img"]
         # Offload the inference step (maestro is a potato)
-        res = requests.post(url="https://jalad.cs.utexas.edu:12345/detect",
+        res = requests.post(url="https://35.175.235.213:12345/detect",
                             json={
                                 "passphrase": "ligma",
                                 "img_data": img
