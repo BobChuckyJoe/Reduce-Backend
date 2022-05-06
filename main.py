@@ -15,14 +15,14 @@ app = Flask(__name__)
 CORS(app)
 
 # Users will use session ids to keep their local state
-user_to_sess_id = dict()
+email_to_sess_id = dict()
 sess_id_to_user = dict()
 
 
-def add_sess_id(user):
+def add_sess_id(user_email):
     session_id = uuid.uuid4()
-    user_to_sess_id[user] = session_id
-    sess_id_to_user[session_id] = user
+    email_to_sess_id[user_email] = session_id
+    sess_id_to_user[session_id] = user_email
 
 
 @app.route("/")
@@ -89,12 +89,12 @@ def login():
                 "ok": "false",
                 "error_message": "Username or password is incorrect"
             }
-        if user not in user_to_sess_id:
-            add_sess_id(user)
+        if user.email not in email_to_sess_id:
+            add_sess_id(user.email)
 
         return {
             "ok": "true",
-            "session_id": user_to_sess_id[user]
+            "session_id": email_to_sess_id[user.email]
         }
 
 
