@@ -31,7 +31,7 @@ def get_user(user_email: str) -> User:
     return User()
 
 
-def add_img_to_user(user: User, image: Image):
+def add_img_to_user(user: User, image: LabeledImage):
     # Local changes
     users.image_ids.append(image.image_id)
 
