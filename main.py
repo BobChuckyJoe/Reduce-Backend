@@ -56,7 +56,7 @@ def sign_up():
                 "error_message": "Passwords do not match"
             }
         else:
-            password_hash = nacl.pwhash.str(bytes(password, "utf-8"))
+            password_hash = str(nacl.pwhash.str(bytes(password, "utf-8")), "utf-8")
             user = User(email, first_name, last_name, password_hash)
             add_user(user)
             session_id = str(uuid.uuid4())
@@ -83,7 +83,7 @@ def login():
         print(user_hash)
         print(json["password"])
         try:
-            nacl.pwhash.verify(user_hash, bytes(json["password"], "utf-8"))
+            nacl.pwhash.verify(bytes(user_hash, "utf-8"), bytes(json["password"], "utf-8"))
         except InvalidkeyError:
             return {
                 "ok": "false",
