@@ -20,7 +20,7 @@ sess_id_to_user = dict()
 
 
 def add_sess_id(user_email):
-    session_id = uuid.uuid4()
+    session_id = str(uuid.uuid4())
     email_to_sess_id[user_email] = session_id
     sess_id_to_user[session_id] = user_email
 
