@@ -59,11 +59,11 @@ def sign_up():
             password_hash = str(nacl.pwhash.str(bytes(password, "utf-8")), "utf-8")
             user = User(email, first_name, last_name, password_hash)
             add_user(user)
-            session_id = str(uuid.uuid4())
 
+            add_sess_id(email)
             return {
                 "ok": "true",
-                "session_id": session_id
+                "session_id": email_to_sess_id[email]
             }
 
 
