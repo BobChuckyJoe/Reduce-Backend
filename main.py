@@ -56,7 +56,7 @@ def sign_up():
                 "error_message": "Passwords do not match"
             }
         else:
-            password_hash = nacl.pwhash.str(password)
+            password_hash = nacl.pwhash.str(bytes(password, "utf-8"))
             user = User(email, first_name, last_name, password_hash)
             add_user(user)
             session_id = str(uuid.uuid4())
